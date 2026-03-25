@@ -1,17 +1,8 @@
 using System.Reflection;
 using AddressEnrichment.Api.Services;
 using Microsoft.OpenApi.Models;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Host.UseSerilog((context, services, configuration) =>
-{
-    configuration
-        .ReadFrom.Configuration(context.Configuration)
-        .ReadFrom.Services(services)
-        .Enrich.FromLogContext();
-});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -48,12 +39,6 @@ builder.Services.AddScoped<IGoogleApiService, GoogleApiService>();
 
 var app = builder.Build();
 
-if (!app.Urls.Any())
-{
-    app.Urls.Add("http://localhost:5080");
-}
-
-app.UseSerilogRequestLogging();
 app.UseCors();
 app.UseSwagger();
 app.UseSwaggerUI();

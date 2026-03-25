@@ -17,6 +17,8 @@ ui/yarn-error.log
 # .NET backend
 app/bin/
 app/obj/
+app/publish/
+app/publish.zip
 app/tests/**/bin/
 app/tests/**/obj/
 
