@@ -8,9 +8,6 @@ jobs:
   deploy-backend:
     name: Backend — Build & Deploy
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: app
 
     steps:
       - uses: actions/checkout@v4
@@ -21,21 +18,25 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Publish
-        run: dotnet publish AddressEnrichment.Api.csproj -c Release -o ./publish
+        run: dotnet publish app/AddressEnrichment.Api.csproj -c Release -o ./publish
+
+      - name: Zip publish output
+        run: cd publish && zip -r ../publish.zip .
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
 
       - name: Deploy to Azure App Service
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: app-address-enrichment-poc
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: app/publish
+        run: az webapp deploy --name app-address-enrichment-poc --resource-group rg-address-enrichment-poc --src-path publish.zip --type zip
 
   deploy-frontend:
     name: Frontend — Build & Deploy
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ui
 
     steps:
       - uses: actions/checkout@v4
@@ -49,9 +50,11 @@ jobs:
 
       - name: Install
         run: npm ci
+        working-directory: ui
 
       - name: Build
         run: npm run build
+        working-directory: ui
 
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
