@@ -24,15 +24,10 @@ jobs:
         run: cd publish && zip -r ../publish.zip .
 
       - name: Azure Login
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        run: az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
 
       - name: Deploy to Azure App Service
-        run: az webapp deploy --name app-address-enrichment-poc --resource-group rg-address-enrichment-poc --src-path publish.zip --type zip
+        run: az webapp deploy --name app-address-enrichment-poc --resource-group rg-address-enrichment-poc --src-path publish.zip --type zip --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
   deploy-frontend:
     name: Frontend — Build & Deploy
