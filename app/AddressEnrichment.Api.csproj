@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -6,6 +6,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <UseAppHost>false</UseAppHost>
     <NoWarn>$(NoWarn);1591</NoWarn>
+    <UserSecretsId>2919608b-e0c0-4e5b-8b83-0292e35d989e</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
