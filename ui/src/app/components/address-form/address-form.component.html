@@ -1,0 +1,60 @@
+<div class="card">
+  <p class="card-title">Address Input</p>
+
+  <div class="form-grid">
+
+    <div class="field full">
+      <label for="addr">Shipper Address <span class="req">*</span></label>
+      <textarea id="addr" [(ngModel)]="shipperAddress"
+        placeholder="e.g. 10 Downing Street, Westminster"></textarea>
+    </div>
+
+    <div class="field">
+      <label for="city">City <span class="req">*</span></label>
+      <input id="city" type="text" [(ngModel)]="city" placeholder="e.g. London" />
+    </div>
+
+    <div class="field">
+      <label for="state">State / Province</label>
+      <input id="state" type="text" [(ngModel)]="state" placeholder="Optional" />
+    </div>
+
+    <div class="field country-field">
+      <label for="country">Country <span class="req">*</span></label>
+      <input id="country" type="text" [(ngModel)]="countryInput"
+        (input)="onCountryInput()" (blur)="hideDropdown()"
+        autocomplete="off" placeholder="e.g. United Kingdom" />
+      <ul class="dropdown" *ngIf="showDropdown">
+        <li *ngFor="let c of filteredCountries" (mousedown)="selectCountry(c)">
+          {{ c.name }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="field">
+      <label for="postcode">Confirmed Postal Code</label>
+      <input id="postcode" type="text" [value]="postalCodeOut" readonly
+        placeholder="Auto-filled after validation" />
+    </div>
+
+  </div>
+
+  <div class="btn-row">
+    <button (click)="onValidate()" [disabled]="loading" class="btn-validate">
+      {{ loading ? 'Validating\u2026' : 'Validate & Enrich' }}
+    </button>
+    <span class="spinner" *ngIf="loading"></span>
+  </div>
+
+  <div class="status-badge" *ngIf="statusType"
+       [class.green]="statusType === 'green'"
+       [class.amber]="statusType === 'amber'"
+       [class.red]="statusType === 'red'">
+    <span class="dot"></span>
+    <span>{{ statusMsg }}</span>
+  </div>
+
+  <p class="std-addr" *ngIf="stdAddress">
+    <strong>Standardised address:</strong> {{ stdAddress }}
+  </p>
+</div>

@@ -1,0 +1,5 @@
+<div class="card map-card">
+  <p class="card-title">Location Map</p>
+  <p class="boundary-note" *ngIf="boundaryError">&#9888; {{ boundaryError }}</p>
+  <div #mapEl class="map-container"></div>
+</div>

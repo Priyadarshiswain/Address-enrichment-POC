@@ -1,0 +1,25 @@
+# macOS
+.DS_Store
+
+# Root editor settings
+.idea/
+
+# Frontend
+ui/node_modules/
+ui/dist/
+ui/.angular/
+ui/coverage/
+ui/tmp/
+ui/out-tsc/
+ui/npm-debug.log
+ui/yarn-error.log
+
+# .NET backend
+app/bin/
+app/obj/
+app/tests/**/bin/
+app/tests/**/obj/
+
+# Logs and temp files
+*.log
+*.tmp

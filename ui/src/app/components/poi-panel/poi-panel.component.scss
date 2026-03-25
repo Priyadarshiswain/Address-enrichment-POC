@@ -1,0 +1,83 @@
+/* ── Variables ── */
+$red:   #D40511;
+$error: #c62828;
+
+/* ── Card ── */
+.card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.card-title {
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: $red;
+  margin: 0 0 16px;
+}
+
+.poi-list {
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0;
+
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+    gap: 8px;
+
+    &:last-child { border-bottom: none; }
+  }
+}
+
+.poi-name {
+  font-size: .9rem;
+  font-weight: 600;
+  flex: 1;
+}
+
+.poi-meta {
+  text-align: right;
+  font-size: .8rem;
+  color: #666;
+  flex-shrink: 0;
+
+  a {
+    display: inline-block;
+    margin-top: 4px;
+    color: $red;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: .75rem;
+
+    &:hover { text-decoration: underline; }
+  }
+}
+
+.empty {
+  color: #999;
+  font-size: .85rem;
+  padding: 12px 0;
+}
+
+.radius-note {
+  font-size: .7rem;
+  font-weight: 400;
+  color: #888;
+  text-transform: none;
+  letter-spacing: 0;
+  margin-left: 4px;
+}
+
+.error-note {
+  color: $error;
+  font-size: .82rem;
+  margin: 0 0 8px;
+}

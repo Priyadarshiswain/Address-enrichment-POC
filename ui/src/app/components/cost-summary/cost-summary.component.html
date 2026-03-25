@@ -1,0 +1,99 @@
+<div class="card cost-card">
+  <button type="button" class="cost-toggle" (click)="toggleExpanded()">
+    <span>
+      <span class="card-title">Estimated API Cost</span>
+      <span class="cost-headline">This request: \${{ totalCost.toFixed(4) }}</span>
+    </span>
+    <span class="toggle-label">{{ expanded ? 'Hide analysis' : 'Show analysis' }}</span>
+  </button>
+
+  <div class="cost-body" *ngIf="expanded">
+    <p class="cost-disclaimer">
+      Prices based on Google Maps Platform published rates (USD, pay-as-you-go).
+      Google provides a <strong>$200 free credit/month</strong> per billing account —
+      at this per-request cost that covers approximately
+      <strong>{{ freeRequestsLeft | number:'1.0-0' }} requests/month</strong> for free.
+    </p>
+
+    <table class="cost-table">
+      <thead>
+        <tr>
+          <th>API</th>
+          <th>Calls</th>
+          <th class="num">Unit Price</th>
+          <th class="num">Cost</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of costItems"
+            [class.row-error]="item.status === 'error'"
+            [class.row-skipped]="item.status === 'skipped'">
+          <td>
+            {{ item.api }}
+            <span class="cost-note" *ngIf="item.note"> — {{ item.note }}</span>
+          </td>
+          <td class="num">{{ item.calls }}</td>
+          <td class="num">\${{ item.unitCost.toFixed(4) }}</td>
+          <td class="num">\${{ item.total.toFixed(4) }}</td>
+          <td>
+            <span class="pill pill-ok"      *ngIf="item.status === 'ok'">&#x2713; OK</span>
+            <span class="pill pill-skipped" *ngIf="item.status === 'skipped'">&#x2014; Skipped</span>
+            <span class="pill pill-error"   *ngIf="item.status === 'error'">&#x2715; Error</span>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3"><strong>Total this request</strong></td>
+          <td class="num total-cost"><strong>\${{ totalCost.toFixed(4) }}</strong></td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="scale-grid">
+      <div class="scale-block">
+        <p class="scale-label">100 req / day</p>
+        <p class="scale-gross">\${{ (totalCost * 100).toFixed(2) }}/day</p>
+        <p class="scale-sub">~\${{ (totalCost * 3000).toFixed(2) }}/month gross</p>
+      </div>
+      <div class="scale-block">
+        <p class="scale-label">1,000 req / day</p>
+        <p class="scale-gross">\${{ (totalCost * 1000).toFixed(2) }}/day</p>
+        <p class="scale-sub">~\${{ (totalCost * 30000).toFixed(2) }}/month gross</p>
+      </div>
+      <div class="scale-block highlight-block">
+        <p class="scale-label">30,000 req / month — net after $200 credit</p>
+        <p class="scale-gross net">\${{ netMonthlyCost.toFixed(2) }}/month</p>
+        <p class="scale-sub">Google enterprise contracts typically offer 40–60% off list price</p>
+      </div>
+    </div>
+
+    <div class="opt-section">
+      <p class="opt-title">&#x26A1; Cost Optimisation Recommendations</p>
+      <ul class="opt-list">
+        <li>
+          <strong>Cache validation results</strong> — store address → postcode + verdict in a database.
+          Re-queries of the same address cost <em>nothing</em>. DHL repeat shipments to the same address are common.
+        </li>
+        <li>
+          <strong>Skip airport/port lookup for known inland regions</strong> — if the postcode is > 100 km from any coast,
+          skip the port search entirely. Saves $0.032 per call (~43% of total cost).
+        </li>
+        <li>
+          <strong>Lazy-load the map</strong> — only load the Google Maps JS SDK when the user actually scrolls to the map.
+          Saves $0.007 per session for users who only care about the postcode.
+        </li>
+        <li>
+          <strong>Batch validation via the API</strong> — Google Address Validation supports bulk processing at reduced rates
+          for enterprise customers. Contact Google for volume pricing.
+        </li>
+        <li>
+          <strong>Use one provider for map + boundary layers</strong> — keeping boundary rendering inside Google Maps
+          reduces integration drift and removes the separate postal polygon dependency.
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

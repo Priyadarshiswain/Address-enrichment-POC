@@ -1,0 +1,51 @@
+<header class="dhl-header">
+  <span class="logo">DHL</span>
+  <h1>Address Enrichment &amp; Validation</h1>
+</header>
+
+<main>
+  <app-address-form
+    [loading]="loading"
+    [postalCodeOut]="postalCodeOut"
+    [statusType]="statusType"
+    [statusMsg]="statusMsg"
+    [stdAddress]="stdAddress"
+    (validateClicked)="validate($event)">
+  </app-address-form>
+
+  <app-map-view
+    *ngIf="showMap"
+    [lat]="mapLat"
+    [lng]="mapLng"
+    [postalCode]="mapPostalCode"
+    [countryIso2]="mapCountryIso2"
+    [boundaryError]="boundaryError"
+    [formattedAddress]="mapFormattedAddress"
+    (boundaryStatusChange)="onBoundaryStatus($event)">
+  </app-map-view>
+
+  <div class="panels" *ngIf="showPanels">
+    <app-poi-panel
+      title="&#x2708; Nearest Airports"
+      radiusLabel="within 50 km"
+      [items]="airports"
+      [error]="airportError">
+    </app-poi-panel>
+
+    <app-poi-panel
+      title="&#x2693; Nearest Ocean Ports"
+      radiusLabel="within 50 km"
+      [items]="ports"
+      [error]="portError">
+    </app-poi-panel>
+  </div>
+
+  <app-cost-summary
+    *ngIf="showCost"
+    [costItems]="costItems"
+    [totalCost]="totalCost"
+    [freeRequestsLeft]="freeRequestsLeft"
+    [netMonthlyCost]="netMonthlyCost">
+  </app-cost-summary>
+
+</main>

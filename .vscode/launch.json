@@ -1,0 +1,33 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": ".NET Backend",
+      "type": "coreclr",
+      "request": "launch",
+      "program": "${workspaceFolder}/app/bin/Debug/net8.0/AddressEnrichment.Api.dll",
+      "cwd": "${workspaceFolder}/app",
+      "env": {
+        "ASPNETCORE_URLS": "http://localhost:5080"
+      },
+      "preLaunchTask": "build-backend",
+      "stopAtEntry": false
+    },
+    {
+      "name": "Angular UI",
+      "type": "pwa-chrome",
+      "request": "launch",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}/ui"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Debug Full Stack",
+      "configurations": [
+        ".NET Backend",
+        "Angular UI"
+      ]
+    }
+  ]
+}

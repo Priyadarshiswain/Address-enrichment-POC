@@ -1,0 +1,16 @@
+<div class="card panel">
+  <p class="card-title">{{ title }} <span class="radius-note">{{ radiusLabel }}</span></p>
+  <p class="error-note" *ngIf="error">{{ error }}</p>
+  <ul class="poi-list">
+    <li *ngFor="let item of items">
+      <span class="poi-name">{{ item.name }}</span>
+      <span class="poi-meta">
+        {{ item.distKm }} km<br>
+        <a [href]="item.mapsUrl" target="_blank" rel="noopener">Open in Maps &#x2197;</a>
+      </span>
+    </li>
+    <li *ngIf="items.length === 0 && !error">
+      <span class="empty">None found within 100 km.</span>
+    </li>
+  </ul>
+</div>
