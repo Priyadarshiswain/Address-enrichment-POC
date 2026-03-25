@@ -36,6 +36,7 @@ Note:
 - Address Validation, Places, and postal boundary target lookup now stay server-side.
 - Postal boundary shading now uses Google Maps data-driven styling for `POSTAL_CODE`, which requires a vector map ID with the `POSTAL_CODE` boundary layer enabled in Google Cloud.
 - The Google Maps JavaScript key is no longer hardcoded in the UI, but it is still delivered to the browser at runtime because the Maps JS SDK requires a browser-usable key. Restrict that key by HTTP referrer.
+- Serilog request and API logs are written to `app/logs/app-*.log`.
 
 Open Swagger:
 
